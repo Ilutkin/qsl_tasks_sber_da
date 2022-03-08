@@ -1,9 +1,9 @@
---схема БД: https://docs.google.com/document/d/1NVORWgdwlKepKq_b8SPRaSpraltxoMg2SIusTEN6mEQ/edit?usp=sharing
+--СЃС…РµРјР° Р‘Р”: https://docs.google.com/document/d/1NVORWgdwlKepKq_b8SPRaSpraltxoMg2SIusTEN6mEQ/edit?usp=sharing
 --colab/jupyter: https://colab.research.google.com/drive/1j4XdGIU__NYPVpv74vQa9HUOAkxsgUez?usp=sharing
 
 --task1 (lesson5)
--- Компьютерная фирма: Сделать view (pages_all_products), в которой будет постраничная разбивка всех продуктов 
---(не более двух продуктов на одной странице). Вывод: все данные из laptop, номер страницы, список всех страниц
+-- РљРѕРјРїСЊСЋС‚РµСЂРЅР°СЏ С„РёСЂРјР°: РЎРґРµР»Р°С‚СЊ view (pages_all_products), РІ РєРѕС‚РѕСЂРѕР№ Р±СѓРґРµС‚ РїРѕСЃС‚СЂР°РЅРёС‡РЅР°СЏ СЂР°Р·Р±РёРІРєР° РІСЃРµС… РїСЂРѕРґСѓРєС‚РѕРІ 
+--(РЅРµ Р±РѕР»РµРµ РґРІСѓС… РїСЂРѕРґСѓРєС‚РѕРІ РЅР° РѕРґРЅРѕР№ СЃС‚СЂР°РЅРёС†Рµ). Р’С‹РІРѕРґ: РІСЃРµ РґР°РЅРЅС‹Рµ РёР· laptop, РЅРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹, СЃРїРёСЃРѕРє РІСЃРµС… СЃС‚СЂР°РЅРёС†
 create view pages_all_products as
 select *, 
       case when num % 2 = 1 then 1 else 2 end as num_in_page,
@@ -14,25 +14,25 @@ from (
 ) t1
 
 --task2 (lesson5)
--- Компьютерная фирма: Сделать view (distribution_by_type), в рамках которого будет процентное соотношение всех товаров 
---по типу устройства. Вывод: производитель, тип, процент (%)
+-- РљРѕРјРїСЊСЋС‚РµСЂРЅР°СЏ С„РёСЂРјР°: РЎРґРµР»Р°С‚СЊ view (distribution_by_type), РІ СЂР°РјРєР°С… РєРѕС‚РѕСЂРѕРіРѕ Р±СѓРґРµС‚ РїСЂРѕС†РµРЅС‚РЅРѕРµ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ РІСЃРµС… С‚РѕРІР°СЂРѕРІ 
+--РїРѕ С‚РёРїСѓ СѓСЃС‚СЂРѕР№СЃС‚РІР°. Р’С‹РІРѕРґ: РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ, С‚РёРї, РїСЂРѕС†РµРЅС‚ (%)
 create view distribution_by_type as 
 select maker, type, count(type)*100/(select count(*) from product) as percent
 from product
 group by maker, type
 order by maker
 --task3 (lesson5)
--- Компьютерная фирма: Сделать на базе предыдущенр view график - круговую диаграмму. Пример https://plotly.com/python/histograms/
+-- РљРѕРјРїСЊСЋС‚РµСЂРЅР°СЏ С„РёСЂРјР°: РЎРґРµР»Р°С‚СЊ РЅР° Р±Р°Р·Рµ РїСЂРµРґС‹РґСѓС‰РµРЅСЂ view РіСЂР°С„РёРє - РєСЂСѓРіРѕРІСѓСЋ РґРёР°РіСЂР°РјРјСѓ. РџСЂРёРјРµСЂ https://plotly.com/python/histograms/
 
 
 --task4 (lesson5)
--- Корабли: Сделать копию таблицы ships (ships_two_words), но название корабля должно состоять из двух слов
+-- РљРѕСЂР°Р±Р»Рё: РЎРґРµР»Р°С‚СЊ РєРѕРїРёСЋ С‚Р°Р±Р»РёС†С‹ ships (ships_two_words), РЅРѕ РЅР°Р·РІР°РЅРёРµ РєРѕСЂР°Р±Р»СЏ РґРѕР»Р¶РЅРѕ СЃРѕСЃС‚РѕСЏС‚СЊ РёР· РґРІСѓС… СЃР»РѕРІ
 create table ships_two_words as 
 (select *
 from ships 
 where name like '% %' and name not like '% % %')
 --task5 (lesson5)
--- Корабли: Вывести список кораблей, у которых class отсутствует (IS NULL) и название начинается с буквы "S"
+-- РљРѕСЂР°Р±Р»Рё: Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє РєРѕСЂР°Р±Р»РµР№, Сѓ РєРѕС‚РѕСЂС‹С… class РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ (IS NULL) Рё РЅР°Р·РІР°РЅРёРµ РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ Р±СѓРєРІС‹ "S"
 select a.ship 
 from ((select ship
 from ships full join outcomes on ships.name=outcomes.ship 
@@ -44,8 +44,8 @@ where class is null) ) as a
 where ship is not null
 
 --task6 (lesson5)
--- Компьютерная фирма: Вывести все принтеры производителя = 'A' со стоимостью выше средней по принтерам производителя = 'C' 
---и три самых дорогих (через оконные функции). Вывести model
+-- РљРѕРјРїСЊСЋС‚РµСЂРЅР°СЏ С„РёСЂРјР°: Р’С‹РІРµСЃС‚Рё РІСЃРµ РїСЂРёРЅС‚РµСЂС‹ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ = 'A' СЃРѕ СЃС‚РѕРёРјРѕСЃС‚СЊСЋ РІС‹С€Рµ СЃСЂРµРґРЅРµР№ РїРѕ РїСЂРёРЅС‚РµСЂР°Рј РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ = 'C' 
+--Рё С‚СЂРё СЃР°РјС‹С… РґРѕСЂРѕРіРёС… (С‡РµСЂРµР· РѕРєРѕРЅРЅС‹Рµ С„СѓРЅРєС†РёРё). Р’С‹РІРµСЃС‚Рё model
 select t.model from (select p.model, p.price, p2.maker, rank(*) over (order by price) as rnk
 from printer p join product p2 on p.model=p2.model) as t
 where t.rnk in (1,2,3) or (t.maker = 'A' 
