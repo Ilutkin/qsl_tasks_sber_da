@@ -46,8 +46,24 @@ where ship is not null
 --task6 (lesson5)
 -- Компьютерная фирма: Вывести все принтеры производителя = 'A' со стоимостью выше средней по принтерам производителя = 'C' 
 --и три самых дорогих (через оконные функции). Вывести model
-select t.model from (select p.model, p.price, p2.maker, rank(*) over (order by price) as rnk
-from printer p join product p2 on p.model=p2.model) as t
-where t.rnk in (1,2,3) or (t.maker = 'A' 
-		and (t.price > (select avg(price) from printer p join product p2 on p.model=p2.model where maker = 'C') 
-		or t.price > 0))
+select product.model 
+from printer
+join product 
+on product.model = printer.model 
+where maker  = 'A' 
+and price  > (
+  select avg(price) 
+  from printer
+  join product 
+  on product.model = printer.model 
+  where maker  = 'C' 
+)
+union all 
+select model
+from (
+  select product.model, price, row_number(*) over (order by price desc) as rn  
+  from printer
+  join product 
+  on product.model = printer.model 
+) a 
+where rn <= 3
