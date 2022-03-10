@@ -15,12 +15,21 @@ from (
 
 --task2 (lesson5)
 -- Компьютерная фирма: Сделать view (distribution_by_type), в рамках которого будет процентное соотношение всех товаров 
---по типу устройства. Вывод: производитель, тип, процент (%)
+--по типу устройства. Вывод: производитель, тип, процент (%) 
 create view distribution_by_type as 
-select maker, type, count(type)*100/(select count(*) from product) as percent
-from product
-group by maker, type
-order by maker
+select maker, 
+sum(flag_printer) * 100.0 / count(flag_printer) as printer_distr,
+sum(flag_laptop) * 100.0  / count(flag_laptop) as laptop_distr, 
+sum(flag_pc) * 100.0  / count(flag_pc) as pc_distr
+from (
+  select *, 
+  case when type = 'Printer' then 1 else 0 end flag_printer, 
+  case when type = 'Laptop' then 1 else 0 end flag_laptop, 
+  case when type = 'PC' then 1 else 0 end flag_pc
+  from product 
+) a 
+group by maker
+
 --task3 (lesson5)
 -- Компьютерная фирма: Сделать на базе предыдущенр view график - круговую диаграмму. Пример https://plotly.com/python/histograms/
 
